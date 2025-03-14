@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
-    baseURL: 'http://uitestingplayground.com/',
+    baseURL: "http://uitestingplayground.com/",
     trace: "on-first-retry",
   },
 
@@ -27,6 +27,5 @@ export default defineConfig({
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
     },
-
   ],
 });
