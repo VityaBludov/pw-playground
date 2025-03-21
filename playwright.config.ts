@@ -1,14 +1,19 @@
 import { defineConfig, devices } from '@playwright/test'
+import { testConfig } from './testConfig'
+import dotenv from 'dotenv'
+import path from 'path'
+
+dotenv.config({ path: path.resolve(__dirname, '.env') })
+
+const envName: string = process.env.ENV ? process.env.ENV : 'localhost'
+const envConfig = testConfig[envName]
+const baseUrl = envConfig.baseUrl // TODO: fix case when ENV set in package.json script
 
 export default defineConfig({
-    testDir: './tests',
-    fullyParallel: true,
-    forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        baseURL: 'http://uitestingplayground.com/',
+        baseURL: baseUrl,
+        //actionTimeout: testConfig[`${process.env.ENV}.timeout`] ? testConfig[`${process.env.ENV}.timeout`] : 5000,
         trace: 'on-first-retry',
     },
 
@@ -18,14 +23,14 @@ export default defineConfig({
             use: { ...devices['Desktop Chrome'] },
         },
 
-        {
-            name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
-        },
+        // {
+        //     name: 'firefox',
+        //     use: { ...devices['Desktop Firefox'] },
+        // },
 
-        {
-            name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
-        },
+        // {
+        //     name: 'webkit',
+        //     use: { ...devices['Desktop Safari'] },
+        // },
     ],
 })

@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "prepare": "husky"
+        "prepare": "husky",
+        "test-staging": "set ENV=staging && npx playwright test stubTest.spec.ts --debug"
     },
     "repository": {
         "type": "git",
