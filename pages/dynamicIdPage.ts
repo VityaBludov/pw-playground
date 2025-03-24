@@ -1,10 +1,11 @@
 import { Page } from '@playwright/test'
-import { BasePage } from './BasePage'
 
-export class DynamicIdPage extends BasePage {
+export class DynamicIdPage {
+    readonly page: Page
+    // add locators as class members
+
     constructor(page: Page) {
-        super(page)
+        this.page = page
+        // initialize locators
     }
-
-    // implement here
 }
