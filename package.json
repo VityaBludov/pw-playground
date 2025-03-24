@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "prepare": "husky",
-        "test-staging": "set ENV=staging && npx playwright test stubTest.spec.ts --debug"
+        "test-prod": "npx playwright test stubTest.spec.ts --config=playwright-prod.config.ts",
+        "test-staging": "npx playwright test stubTest.spec.ts --config=playwright-staging.config.ts",
+        "test-local": "npx playwright test stubTest.spec.ts --config=playwright-local.config.ts"
     },
     "repository": {
         "type": "git",
