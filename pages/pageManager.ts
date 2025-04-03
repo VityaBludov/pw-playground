@@ -1,16 +1,16 @@
 import { Page } from '@playwright/test'
-import { DynamicIdPage } from './dynamicIdPage'
+import { OpenPage } from './openPage'
 
 export class PageManager {
     private readonly page: Page
-    private readonly dynamicIdPage: DynamicIdPage
+    readonly openPage: OpenPage
 
     constructor(page: Page) {
         this.page = page
-        this.dynamicIdPage = new DynamicIdPage(this.page)
+        this.openPage = new OpenPage(this.page)
     }
 
-    onDynamicIdPage() {
-        return this.dynamicIdPage
+    open() {
+        return this.openPage
     }
 }

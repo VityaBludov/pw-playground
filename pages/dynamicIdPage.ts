@@ -1,11 +1,16 @@
-import { Page } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
 
 export class DynamicIdPage {
     readonly page: Page
-    // add locators as class members
+    private readonly dynamicIdButton: Locator
 
     constructor(page: Page) {
         this.page = page
-        // initialize locators
+        this.dynamicIdButton = this.page.getByRole('button')
+    }
+
+    async clickButton() {
+        await expect(this.dynamicIdButton).toHaveText('Button with Dynamic ID')
+        await this.dynamicIdButton.click()
     }
 }
