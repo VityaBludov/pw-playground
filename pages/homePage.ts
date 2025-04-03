@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test'
 
-export class OpenPage {
+export class HomePage {
     readonly page: Page
     private readonly dynamicIdPageLink: Locator
 
@@ -11,7 +11,7 @@ export class OpenPage {
         })
     }
 
-    async dynamicIdPage() {
+    async openDynamicIdPage() {
         await this.dynamicIdPageLink.click()
     }
 }

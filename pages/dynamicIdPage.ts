@@ -2,7 +2,7 @@ import { expect, Locator, Page } from '@playwright/test'
 
 export class DynamicIdPage {
     readonly page: Page
-    private readonly dynamicIdButton: Locator
+    readonly dynamicIdButton: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -10,7 +10,10 @@ export class DynamicIdPage {
     }
 
     async clickButton() {
-        await expect(this.dynamicIdButton).toHaveText('Button with Dynamic ID')
+        await expect(
+            this.dynamicIdButton,
+            'Button with Dynamic ID not visible'
+        ).toBeVisible()
         await this.dynamicIdButton.click()
     }
 }
