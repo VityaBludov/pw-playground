@@ -7,9 +7,10 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('basic tests to check each page one by one', async ({ page }) => {
-    const hp: HomePage = new HomePage(page)
+    const homePage: HomePage = new HomePage(page)
     const dynamicIdPage: DynamicIdPage = new DynamicIdPage(page)
 
-    hp.openDynamicIdPage()
+    homePage.openDynamicIdPage()
     await dynamicIdPage.clickButton()
+    // no click outcome, nothing to assert
 })
