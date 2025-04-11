@@ -37,7 +37,7 @@ test('hidden layers page @regression', async ({ page }) => {
     await expect(hiddenLayersPage.blueButtonDiv, 'Incorrect z-index of blue button').toHaveCSS('z-index', '2')
 })
 
-test('load delay page', async ({ page }) => {
+test('load delay page @regression', async ({ page }) => {
     const loadDelayPage = new LoadDelayPage(page)
 
     await homePage.openLoadDelayPage(10000)
