@@ -3,6 +3,7 @@ import { DynamicIdPage } from '../pages/dynamicIdPage'
 import { HomePage } from '../pages/homePage'
 import { ClassAttributePage } from '../pages/classAttributePage'
 import { HiddenLayersPage } from '../pages/hiddenLayersPage'
+import { LoadDelayPage } from '../pages/loadDelayPage'
 
 let homePage: HomePage
 
@@ -34,4 +35,11 @@ test('hidden layers page @regression', async ({ page }) => {
     await hiddenLayersPage.clickGreenButton()
     await expect(hiddenLayersPage.greenButtonDiv).toHaveCSS('z-index', '1')
     await expect(hiddenLayersPage.blueButtonDiv).toHaveCSS('z-index', '2')
+})
+
+test('load delay page', async ({ page }) => {
+    const loadDelayPage = new LoadDelayPage(page)
+
+    await homePage.openLoadDelayPage(10000)
+    await expect(loadDelayPage.delayedButton).toBeVisible()
 })
