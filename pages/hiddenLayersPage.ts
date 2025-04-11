@@ -16,10 +16,7 @@ export class HiddenLayersPage {
     }
 
     async clickGreenButton() {
-        await expect(
-            this.greenButton,
-            'Green button is not visible'
-        ).toBeVisible()
+        await expect(this.greenButton, 'Green button is not visible').toBeVisible()
         await this.greenButton.click()
     }
 }

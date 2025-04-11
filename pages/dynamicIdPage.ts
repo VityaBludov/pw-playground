@@ -6,14 +6,11 @@ export class DynamicIdPage {
 
     constructor(page: Page) {
         this.page = page
-        this.dynamicIdButton = this.page.getByRole('button')
+        this.dynamicIdButton = this.page.getByRole('button', { name: 'Button with Dynamic ID' })
     }
 
     async clickButton() {
-        await expect(
-            this.dynamicIdButton,
-            'Button with Dynamic ID not visible'
-        ).toBeVisible()
+        await expect(this.dynamicIdButton, 'Button with Dynamic ID not visible').toBeVisible()
         await this.dynamicIdButton.click()
     }
 }
