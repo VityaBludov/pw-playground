@@ -4,6 +4,7 @@ export class HomePage {
     readonly page: Page
     private readonly dynamicIdPageLink: Locator
     private readonly classAttributePageLink: Locator
+    private readonly hiddenLayersPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -13,6 +14,9 @@ export class HomePage {
         this.classAttributePageLink = this.page.getByRole('link', {
             name: 'Class Attribute',
         })
+        this.hiddenLayersPageLink = this.page.getByRole('link', {
+            name: 'Hidden Layers',
+        })
     }
 
     async openDynamicIdPage() {
@@ -21,5 +25,9 @@ export class HomePage {
 
     async openClassAttributePage() {
         await this.classAttributePageLink.click()
+    }
+
+    async openHiddenLayersPage() {
+        await this.hiddenLayersPageLink.click()
     }
 }
