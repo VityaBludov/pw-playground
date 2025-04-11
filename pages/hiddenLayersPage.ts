@@ -11,9 +11,7 @@ export class HiddenLayersPage {
         this.page = page
         this.greenButton = page.locator('#greenButton')
         this.blueButton = page.locator('#blueButton')
-        this.greenButtonDiv = page.locator('.spa-view', {
-            has: this.greenButton,
-        })
+        this.greenButtonDiv = page.locator('.spa-view', { has: this.greenButton })
         this.blueButtonDiv = page.locator('.spa-view', { has: this.blueButton })
     }
 
