@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "prepare": "husky",
-        "test-prod": "npx playwright test basicTests.spec.ts --config=playwright-prod.config.ts --headed",
-        "test-staging": "npx playwright test basicTests.spec.ts --config=playwright-staging.config.ts",
+        "test-prod": "npx playwright test basicTests.spec.ts --config=playwright-prod.config.ts --headed --grep \"@regression\"",
+        "test-staging": "npx playwright test basicTests.spec.ts --config=playwright-staging.config.ts --grep \"@regression\"",
         "test-local": "npx playwright test basicTests.spec.ts --config=playwright-local.config.ts"
     },
     "repository": {
