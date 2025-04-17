@@ -4,6 +4,7 @@ import { HomePage } from '../pages/homePage'
 import { ClassAttributePage } from '../pages/classAttributePage'
 import { HiddenLayersPage } from '../pages/hiddenLayersPage'
 import { LoadDelayPage } from '../pages/loadDelayPage'
+import { AjaxDataPage } from '../pages/ajaxDataPage'
 
 let homePage: HomePage
 
@@ -37,9 +38,17 @@ test('verify z-index of overlapping buttons @regression', async ({ page }) => {
     await expect(hiddenLayersPage.blueButtonDiv, 'Incorrect z-index of blue button').toHaveCSS('z-index', '2')
 })
 
-test('delayed load with custom timeout @regression', async ({ page }) => {
+test('wait delayed page load @regression', async ({ page }) => {
     const loadDelayPage = new LoadDelayPage(page)
 
     await homePage.openLoadDelayPage(10000)
-    await expect(loadDelayPage.delayedButton, 'Load delay button not visible').toBeVisible()
+    await expect(loadDelayPage.delayedButton, 'Delayed page with button should be visible').toBeVisible()
+})
+
+test('wait for slow AJAX response @regression', async ({ page }) => {
+    const ajaxDataPage = new AjaxDataPage(page)
+
+    await homePage.openAjaxDataPage()
+    await ajaxDataPage.clickAjaxButton()
+    await expect(ajaxDataPage.successMessage, 'Green success message should appear within < 20s').toBeVisible({ timeout: 20000 })
 })

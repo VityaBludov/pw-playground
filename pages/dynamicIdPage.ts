@@ -10,7 +10,7 @@ export class DynamicIdPage {
     }
 
     async clickButton() {
-        await expect(this.dynamicIdButton, 'Button with Dynamic ID not visible').toBeVisible()
+        await expect(this.dynamicIdButton, 'Button with Dynamic ID should be visible').toBeVisible()
         await this.dynamicIdButton.click()
     }
 }

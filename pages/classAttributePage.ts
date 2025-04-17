@@ -10,7 +10,7 @@ export class ClassAttributePage {
     }
 
     async clickPrimaryButton() {
-        await expect(this.primaryButton, 'Primary button not visible').toBeVisible()
+        await expect(this.primaryButton, 'Primary button should be visible').toBeVisible()
         await this.primaryButton.click()
     }
 
