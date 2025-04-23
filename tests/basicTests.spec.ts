@@ -29,13 +29,15 @@ test('identify button by class attribute @regression', async ({ page }) => {
     await classAttributePage.clickPopupButton()
 })
 
-test('verify z-index of overlapping buttons @regression', async ({ page }) => {
+test('check that after click second button appears and hides first one @regression', async ({ page }) => {
     const hiddenLayersPage = new HiddenLayersPage(page)
 
+    // reworked: verify by blue button existence, z-indexes comparison and respective bound boxes position and size
     await homePage.openHiddenLayersPage()
     await hiddenLayersPage.clickGreenButton()
-    await expect(hiddenLayersPage.greenButtonDiv, 'Incorrect z-index of green button').toHaveCSS('z-index', '1')
-    await expect(hiddenLayersPage.blueButtonDiv, 'Incorrect z-index of blue button').toHaveCSS('z-index', '2')
+    await expect(hiddenLayersPage.blueButton, 'Blue button should appear after click').toBeVisible()
+    expect(await hiddenLayersPage.isBlueButtonOnTop(), 'Blue button should have higher z-index than green button').toBeTruthy()
+    expect(await hiddenLayersPage.isGreenButtonCovered(), 'Blue button should fully cover green button').toBeTruthy()
 })
 
 test('wait delayed page load @regression', async ({ page }) => {
