@@ -7,6 +7,7 @@ import { LoadDelayPage } from '../pages/loadDelayPage'
 import { AjaxDataPage } from '../pages/ajaxDataPage'
 import { ClientSideDelayPage } from '../pages/clientSideDelayPage'
 import { ClickPage } from '../pages/clickPage'
+import { TextInputPage } from '../pages/textInputPage'
 
 let homePage: HomePage
 
@@ -65,10 +66,19 @@ test('wait for slow client side logic @regression', async ({ page }) => {
     await expect(clientSideDelayPage.successMessage, 'Green success message should appear within < 20s').toBeVisible()
 })
 
-test('make sure that emulating physical mouse click works @regression', async ({ page }) => {
+test('verify that emulating physical mouse click works @regression', async ({ page }) => {
     const clickPage = new ClickPage(page)
 
     await homePage.openClickPage()
     await clickPage.clickBlueButton()
     await expect(clickPage.greenButton, 'Green button should appear instead of blue one').toBeVisible()
+})
+
+test('verify that emulating physical keyboard input works @regression', async ({ page }) => {
+    const textInputPage = new TextInputPage(page)
+    const name = 'new name'
+
+    await homePage.openTextInputPage()
+    await textInputPage.inputButtonName(name)
+    await expect(textInputPage.renameableButton, 'Button should have new name').toHaveText(name)
 })

@@ -9,6 +9,7 @@ export class HomePage {
     private readonly ajaxDataPageLink: Locator
     private readonly clientSideDelayPageLink: Locator
     private readonly clickPageLink: Locator
+    private readonly textInputPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -19,6 +20,7 @@ export class HomePage {
         this.ajaxDataPageLink        = this.page.getByRole('link', { name: 'AJAX Data' })
         this.clientSideDelayPageLink = this.page.getByRole('link', { name: 'Client Side Delay' })
         this.clickPageLink           = this.page.getByRole('link', { name: 'Click' })
+        this.textInputPageLink       = this.page.getByRole('link', { name: 'Text Input' })
     }
 
     async openDynamicIdPage() {
@@ -47,5 +49,9 @@ export class HomePage {
 
     async openClickPage() {
         await this.clickPageLink.click()
+    }
+
+    async openTextInputPage() {
+        await this.textInputPageLink.click()
     }
 }
