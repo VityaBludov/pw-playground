@@ -8,6 +8,7 @@ export class HomePage {
     private readonly loadDelayPageLink: Locator
     private readonly ajaxDataPageLink: Locator
     private readonly clientSideDelayPageLink: Locator
+    private readonly clickPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -17,6 +18,7 @@ export class HomePage {
         this.loadDelayPageLink       = this.page.getByRole('link', { name: 'Load Delay' })
         this.ajaxDataPageLink        = this.page.getByRole('link', { name: 'AJAX Data' })
         this.clientSideDelayPageLink = this.page.getByRole('link', { name: 'Client Side Delay' })
+        this.clickPageLink           = this.page.getByRole('link', { name: 'Click' })
     }
 
     async openDynamicIdPage() {
@@ -41,5 +43,9 @@ export class HomePage {
 
     async openClientSideDelayPage() {
         await this.clientSideDelayPageLink.click()
+    }
+
+    async openClickPage() {
+        await this.clickPageLink.click()
     }
 }

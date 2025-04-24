@@ -6,6 +6,7 @@ import { HiddenLayersPage } from '../pages/hiddenLayersPage'
 import { LoadDelayPage } from '../pages/loadDelayPage'
 import { AjaxDataPage } from '../pages/ajaxDataPage'
 import { ClientSideDelayPage } from '../pages/clientSideDelayPage'
+import { ClickPage } from '../pages/clickPage'
 
 let homePage: HomePage
 
@@ -56,10 +57,18 @@ test('wait for slow AJAX response @regression', async ({ page }) => {
     await expect(ajaxDataPage.successMessage, 'Green success message should appear within < 20s').toBeVisible({ timeout: 20000 })
 })
 
-test('wait for slow client side logic @new', async ({ page }) => {
+test('wait for slow client side logic @regression', async ({ page }) => {
     const clientSideDelayPage = new ClientSideDelayPage(page)
 
     await homePage.openClientSideDelayPage()
     await clientSideDelayPage.clickTriggerButton(20000)
     await expect(clientSideDelayPage.successMessage, 'Green success message should appear within < 20s').toBeVisible()
+})
+
+test('make sure that emulating physical mouse click works @regression', async ({ page }) => {
+    const clickPage = new ClickPage(page)
+
+    await homePage.openClickPage()
+    await clickPage.clickBlueButton()
+    await expect(clickPage.greenButton, 'Green button should appear instead of blue one').toBeVisible()
 })
