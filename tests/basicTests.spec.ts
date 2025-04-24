@@ -5,6 +5,7 @@ import { ClassAttributePage } from '../pages/classAttributePage'
 import { HiddenLayersPage } from '../pages/hiddenLayersPage'
 import { LoadDelayPage } from '../pages/loadDelayPage'
 import { AjaxDataPage } from '../pages/ajaxDataPage'
+import { ClientSideDelayPage } from '../pages/clientSideDelayPage'
 
 let homePage: HomePage
 
@@ -53,4 +54,12 @@ test('wait for slow AJAX response @regression', async ({ page }) => {
     await homePage.openAjaxDataPage()
     await ajaxDataPage.clickAjaxButton()
     await expect(ajaxDataPage.successMessage, 'Green success message should appear within < 20s').toBeVisible({ timeout: 20000 })
+})
+
+test('wait for slow client side logic @new', async ({ page }) => {
+    const clientSideDelayPage = new ClientSideDelayPage(page)
+
+    await homePage.openClientSideDelayPage()
+    await clientSideDelayPage.clickTriggerButton(20000)
+    await expect(clientSideDelayPage.successMessage, 'Green success message should appear within < 20s').toBeVisible()
 })
