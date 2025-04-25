@@ -10,6 +10,7 @@ export class HomePage {
     private readonly clientSideDelayPageLink: Locator
     private readonly clickPageLink: Locator
     private readonly textInputPageLink: Locator
+    private readonly scrollbarsPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -21,6 +22,7 @@ export class HomePage {
         this.clientSideDelayPageLink = this.page.getByRole('link', { name: 'Client Side Delay' })
         this.clickPageLink           = this.page.getByRole('link', { name: 'Click' })
         this.textInputPageLink       = this.page.getByRole('link', { name: 'Text Input' })
+        this.scrollbarsPageLink      = this.page.getByRole('link', { name: 'Scrollbars' })
     }
 
     async openDynamicIdPage() {
@@ -53,5 +55,9 @@ export class HomePage {
 
     async openTextInputPage() {
         await this.textInputPageLink.click()
+    }
+
+    async openScrollbarsPage() {
+        await this.scrollbarsPageLink.click()
     }
 }
