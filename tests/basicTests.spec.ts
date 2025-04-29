@@ -10,6 +10,7 @@ import { ClickPage } from '../pages/clickPage'
 import { TextInputPage } from '../pages/textInputPage'
 import { ScrollbarsPage } from '../pages/scrollbarsPage'
 import { DynamicTablePage } from '../pages/dynamicTablePage'
+import { VerifyTextPage } from '../pages/verifyTextPage'
 
 let homePage: HomePage
 
@@ -98,4 +99,12 @@ test('compare specific value from dynamic table with control value @regression',
 
     await homePage.openDynamicTablePage()
     expect(await dynamicTablePage.getCellValue()).toEqual(await dynamicTablePage.getWarningMessageValue())
+})
+
+test('verify that text, consisting of different parts, is displayed properly @regression', async ({ page }) => {
+    const text = 'Welcome UserName!'
+    const verifyTextPage = new VerifyTextPage(page)
+
+    await homePage.openVerifyTextPage()
+    await expect((await verifyTextPage.getElementByText(text)).last(), 'Element with proper text should be displayed').toBeVisible()
 })
