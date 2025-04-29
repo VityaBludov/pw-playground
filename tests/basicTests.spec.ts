@@ -9,6 +9,7 @@ import { ClientSideDelayPage } from '../pages/clientSideDelayPage'
 import { ClickPage } from '../pages/clickPage'
 import { TextInputPage } from '../pages/textInputPage'
 import { ScrollbarsPage } from '../pages/scrollbarsPage'
+import { DynamicTablePage } from '../pages/dynamicTablePage'
 
 let homePage: HomePage
 
@@ -84,10 +85,17 @@ test('verify that emulating physical keyboard input works @regression', async ({
     await expect(textInputPage.renameableButton, 'Button should have new name').toHaveText(name)
 })
 
-test('check that button can be scrolled into viewport and clicked @regression @new', async ({ page }) => {
+test('check that button can be scrolled into viewport and clicked @regression', async ({ page }) => {
     const scrollbarsPage = new ScrollbarsPage(page)
 
     await homePage.openScrollbarsPage()
     await scrollbarsPage.scrollAndClickButton()
     // no click outcome, nothing to assert
+})
+
+test('compare specific value from dynamic table with control value @regression', async ({ page }) => {
+    const dynamicTablePage = new DynamicTablePage(page)
+
+    await homePage.openDynamicTablePage()
+    expect(await dynamicTablePage.getCellValue()).toEqual(await dynamicTablePage.getWarningMessageValue())
 })

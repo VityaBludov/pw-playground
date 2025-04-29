@@ -11,6 +11,7 @@ export class HomePage {
     private readonly clickPageLink: Locator
     private readonly textInputPageLink: Locator
     private readonly scrollbarsPageLink: Locator
+    private readonly dynamicTablePageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -23,6 +24,7 @@ export class HomePage {
         this.clickPageLink           = this.page.getByRole('link', { name: 'Click' })
         this.textInputPageLink       = this.page.getByRole('link', { name: 'Text Input' })
         this.scrollbarsPageLink      = this.page.getByRole('link', { name: 'Scrollbars' })
+        this.dynamicTablePageLink    = this.page.getByRole('link', { name: 'Dynamic Table' })
     }
 
     async openDynamicIdPage() {
@@ -59,5 +61,9 @@ export class HomePage {
 
     async openScrollbarsPage() {
         await this.scrollbarsPageLink.click()
+    }
+
+    async openDynamicTablePage() {
+        await this.dynamicTablePageLink.click()
     }
 }
