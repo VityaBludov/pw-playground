@@ -13,6 +13,7 @@ export class HomePage {
     private readonly scrollbarsPageLink: Locator
     private readonly dynamicTablePageLink: Locator
     private readonly verifyTextPageLink: Locator
+    private readonly progressBarPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -27,6 +28,7 @@ export class HomePage {
         this.scrollbarsPageLink      = this.page.getByRole('link', { name: 'Scrollbars' })
         this.dynamicTablePageLink    = this.page.getByRole('link', { name: 'Dynamic Table' })
         this.verifyTextPageLink      = this.page.getByRole('link', { name: 'Verify Text' })
+        this.progressBarPageLink     = this.page.getByRole('link', { name: 'Progress Bar' })
     }
 
     async openDynamicIdPage() {
@@ -71,5 +73,9 @@ export class HomePage {
 
     async openVerifyTextPage() {
         await this.verifyTextPageLink.click()
+    }
+
+    async openProgressBarPage() {
+        await this.progressBarPageLink.click()
     }
 }

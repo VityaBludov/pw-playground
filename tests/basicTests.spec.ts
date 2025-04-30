@@ -11,6 +11,7 @@ import { TextInputPage } from '../pages/textInputPage'
 import { ScrollbarsPage } from '../pages/scrollbarsPage'
 import { DynamicTablePage } from '../pages/dynamicTablePage'
 import { VerifyTextPage } from '../pages/verifyTextPage'
+import { ProgressBarPage } from '../pages/progressBarPage'
 
 let homePage: HomePage
 
@@ -107,4 +108,15 @@ test('verify that text, consisting of different parts, is displayed properly @re
 
     await homePage.openVerifyTextPage()
     await expect((await verifyTextPage.getElementByText(text)).last(), 'Element with proper text should be displayed').toBeVisible()
+})
+
+test('verify that progress bar reaches target @regression', async ({ page }) => {
+    const target = 75
+    const progressBarPage = new ProgressBarPage(page)
+
+    await homePage.openProgressBarPage()
+    await progressBarPage.clickStartButton()
+    await progressBarPage.waitForTarget(target)
+    await progressBarPage.clickStopButton()
+    expect(await progressBarPage.getTimeDiff()).toBeLessThan(3)
 })
