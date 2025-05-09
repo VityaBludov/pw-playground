@@ -12,6 +12,7 @@ import { ScrollbarsPage } from '../pages/scrollbarsPage'
 import { DynamicTablePage } from '../pages/dynamicTablePage'
 import { VerifyTextPage } from '../pages/verifyTextPage'
 import { ProgressBarPage } from '../pages/progressBarPage'
+import { VisibilityPage } from '../pages/visibilityPage'
 
 let homePage: HomePage
 
@@ -119,4 +120,19 @@ test('verify that progress bar reaches target @regression', async ({ page }) => 
     await progressBarPage.waitForTarget(target)
     await progressBarPage.clickStopButton()
     expect(await progressBarPage.getTimeDiff()).toBeLessThan(3)
+})
+
+test('Verify different types of element invisibility @regression', async ({ page }) => {
+    const visibilityPage = new VisibilityPage(page)
+
+    await homePage.openVisibilityPage()
+    await visibilityPage.clickHideButton()
+
+    await expect(visibilityPage.removedButton, '"Removed" button should not be visible').not.toBeVisible()
+    await expect(visibilityPage.zeroWidthButton, '"Zero width" button should not be visible').not.toBeVisible()
+    expect(await visibilityPage.isOverlappedButtonVisible(), '"Overlapped" button should not be visible').toBeFalsy()
+    expect(await visibilityPage.isOpacityZeroButtonVisible(), '"Opacity 0" button should not be visible').toBeFalsy()
+    await expect(visibilityPage.visibilityHiddenButton, '"Visibility hidden button should not be visible').not.toBeVisible()
+    await expect(visibilityPage.displayNoneButton, '"Display none" button should not be visible').not.toBeVisible()
+    await expect(visibilityPage.offscreenButton, '"Offscreen" button should not be visible').not.toBeInViewport()
 })
