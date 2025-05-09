@@ -15,6 +15,7 @@ export class HomePage {
     private readonly verifyTextPageLink: Locator
     private readonly progressBarPageLink: Locator
     private readonly visibilityPageLink: Locator
+    private readonly sampleAppLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -31,6 +32,7 @@ export class HomePage {
         this.verifyTextPageLink      = this.page.getByRole('link', { name: 'Verify Text' })
         this.progressBarPageLink     = this.page.getByRole('link', { name: 'Progress Bar' })
         this.visibilityPageLink      = this.page.getByRole('link', { name: 'Visibility' })
+        this.sampleAppLink           = this.page.getByRole('link', { name: 'Sample App' })
     }
 
     async openDynamicIdPage() {
@@ -83,5 +85,9 @@ export class HomePage {
 
     async openVisibilityPage() {
         await this.visibilityPageLink.click()
+    }
+
+    async openSampleAppPage() {
+        await this.sampleAppLink.click()
     }
 }

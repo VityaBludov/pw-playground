@@ -13,6 +13,7 @@ import { DynamicTablePage } from '../pages/dynamicTablePage'
 import { VerifyTextPage } from '../pages/verifyTextPage'
 import { ProgressBarPage } from '../pages/progressBarPage'
 import { VisibilityPage } from '../pages/visibilityPage'
+import { SampleAppPage } from '../pages/sampleAppPage'
 
 let homePage: HomePage
 
@@ -135,4 +136,15 @@ test('Verify different types of element invisibility @regression', async ({ page
     await expect(visibilityPage.visibilityHiddenButton, '"Visibility hidden button should not be visible').not.toBeVisible()
     await expect(visibilityPage.displayNoneButton, '"Display none" button should not be visible').not.toBeVisible()
     await expect(visibilityPage.offscreenButton, '"Offscreen" button should not be visible').not.toBeInViewport()
+})
+
+test('Verify login with correct credentials @regression', async ({ page }) => {
+    const sampleAppPage = new SampleAppPage(page)
+    const user = 'vasya'
+
+    await homePage.openSampleAppPage()
+    await sampleAppPage.inputUsername(user)
+    await sampleAppPage.inputPassword('pwd')
+    await sampleAppPage.submitForm()
+    await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toContainText(`Welcome, ${user}!`)
 })
