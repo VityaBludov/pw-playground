@@ -139,7 +139,7 @@ test('Verify different types of element invisibility @regression', async ({ page
     await expect(visibilityPage.offscreenButton, '"Offscreen" button should not be visible').not.toBeInViewport()
 })
 
-test('Verify login with correct credentials @regression', async ({ page }) => {
+test('Verify login with correct credentials @regression @new', async ({ page }) => {
     const sampleAppPage = new SampleAppPage(page)
     const user = 'vasya'
 
@@ -147,7 +147,7 @@ test('Verify login with correct credentials @regression', async ({ page }) => {
     await sampleAppPage.inputUsername(user)
     await sampleAppPage.inputPassword('pwd')
     await sampleAppPage.submitForm()
-    await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toContainText(`Welcome, ${user}!`)
+    await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toHaveText(`Welcome, ${user}!`)
 })
 
 test('verify links to be clickable after change on mouseover @regression', async ({ page }) => {
