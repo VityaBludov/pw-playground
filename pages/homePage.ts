@@ -15,26 +15,28 @@ export class HomePage {
     private readonly verifyTextPageLink: Locator
     private readonly progressBarPageLink: Locator
     private readonly visibilityPageLink: Locator
-    private readonly sampleAppLink: Locator
-    private readonly mouseOverLink: Locator
+    private readonly sampleAppPageLink: Locator
+    private readonly mouseOverPageLink: Locator
+    private readonly nonBreakingSpacePageLink: Locator
 
     constructor(page: Page) {
         this.page = page
-        this.dynamicIdPageLink       = this.page.getByRole('link', { name: 'Dynamic ID' })
-        this.classAttributePageLink  = this.page.getByRole('link', { name: 'Class Attribute' })
-        this.hiddenLayersPageLink    = this.page.getByRole('link', { name: 'Hidden Layers' })
-        this.loadDelayPageLink       = this.page.getByRole('link', { name: 'Load Delay' })
-        this.ajaxDataPageLink        = this.page.getByRole('link', { name: 'AJAX Data' })
-        this.clientSideDelayPageLink = this.page.getByRole('link', { name: 'Client Side Delay' })
-        this.clickPageLink           = this.page.getByRole('link', { name: 'Click' })
-        this.textInputPageLink       = this.page.getByRole('link', { name: 'Text Input' })
-        this.scrollbarsPageLink      = this.page.getByRole('link', { name: 'Scrollbars' })
-        this.dynamicTablePageLink    = this.page.getByRole('link', { name: 'Dynamic Table' })
-        this.verifyTextPageLink      = this.page.getByRole('link', { name: 'Verify Text' })
-        this.progressBarPageLink     = this.page.getByRole('link', { name: 'Progress Bar' })
-        this.visibilityPageLink      = this.page.getByRole('link', { name: 'Visibility' })
-        this.sampleAppLink           = this.page.getByRole('link', { name: 'Sample App' })
-        this.mouseOverLink           = this.page.getByRole('link', { name: 'Mouse Over' })
+        this.dynamicIdPageLink        = this.page.getByRole('link', { name: 'Dynamic ID' })
+        this.classAttributePageLink   = this.page.getByRole('link', { name: 'Class Attribute' })
+        this.hiddenLayersPageLink     = this.page.getByRole('link', { name: 'Hidden Layers' })
+        this.loadDelayPageLink        = this.page.getByRole('link', { name: 'Load Delay' })
+        this.ajaxDataPageLink         = this.page.getByRole('link', { name: 'AJAX Data' })
+        this.clientSideDelayPageLink  = this.page.getByRole('link', { name: 'Client Side Delay' })
+        this.clickPageLink            = this.page.getByRole('link', { name: 'Click' })
+        this.textInputPageLink        = this.page.getByRole('link', { name: 'Text Input' })
+        this.scrollbarsPageLink       = this.page.getByRole('link', { name: 'Scrollbars' })
+        this.dynamicTablePageLink     = this.page.getByRole('link', { name: 'Dynamic Table' })
+        this.verifyTextPageLink       = this.page.getByRole('link', { name: 'Verify Text' })
+        this.progressBarPageLink      = this.page.getByRole('link', { name: 'Progress Bar' })
+        this.visibilityPageLink       = this.page.getByRole('link', { name: 'Visibility' })
+        this.sampleAppPageLink        = this.page.getByRole('link', { name: 'Sample App' })
+        this.mouseOverPageLink        = this.page.getByRole('link', { name: 'Mouse Over' })
+        this.nonBreakingSpacePageLink = this.page.getByRole('link', { name: 'Non-Breaking Space' })
     }
 
     async openDynamicIdPage() {
@@ -90,10 +92,14 @@ export class HomePage {
     }
 
     async openSampleAppPage() {
-        await this.sampleAppLink.click()
+        await this.sampleAppPageLink.click()
     }
 
     async openMouseOverPage() {
-        await this.mouseOverLink.click()
+        await this.mouseOverPageLink.click()
+    }
+
+    async openNonBreakingSpacePage() {
+        await this.nonBreakingSpacePageLink.click()
     }
 }

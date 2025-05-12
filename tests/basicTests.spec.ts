@@ -15,6 +15,7 @@ import { ProgressBarPage } from '../pages/progressBarPage'
 import { VisibilityPage } from '../pages/visibilityPage'
 import { SampleAppPage } from '../pages/sampleAppPage'
 import { MouseOverPage } from '../pages/mouseOverPage'
+import { NonBreakingSpacePage } from '../pages/nonBreakingSpacePage'
 
 let homePage: HomePage
 
@@ -139,7 +140,7 @@ test('Verify different types of element invisibility @regression', async ({ page
     await expect(visibilityPage.offscreenButton, '"Offscreen" button should not be visible').not.toBeInViewport()
 })
 
-test('Verify login with correct credentials @regression @new', async ({ page }) => {
+test('Verify login with correct credentials @regression', async ({ page }) => {
     const sampleAppPage = new SampleAppPage(page)
     const user = 'vasya'
 
@@ -160,4 +161,12 @@ test('verify links to be clickable after change on mouseover @regression', async
     await mouseOverPage.clickSecondLink()
     await mouseOverPage.clickSecondLink()
     await expect(mouseOverPage.secondLinkCounter).toHaveText('2')
+})
+
+test('Locate button with non-breaking space @regression @new', async ({ page }) => {
+    const nonBreakingSpacePage = new NonBreakingSpacePage(page)
+
+    await homePage.openNonBreakingSpacePage()
+    await nonBreakingSpacePage.clickButton()
+    // no click outcome, nothing to assert
 })
