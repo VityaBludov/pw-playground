@@ -151,19 +151,19 @@ test('Verify login with correct credentials @regression', async ({ page }) => {
     await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toHaveText(`Welcome, ${user}!`)
 })
 
-test('verify links to be clickable after change on mouseover @regression', async ({ page }) => {
+test('verify links to be clickable after change on mouseover @regression @new', async ({ page }) => {
     const mouseOverPage = new MouseOverPage(page)
 
     await homePage.openMouseOverPage()
-    await mouseOverPage.clickFirstLink()
-    await mouseOverPage.clickFirstLink()
-    await expect(mouseOverPage.firstLinkCounter).toHaveText('2')
-    await mouseOverPage.clickSecondLink()
-    await mouseOverPage.clickSecondLink()
-    await expect(mouseOverPage.secondLinkCounter).toHaveText('2')
+    for (let i = 0; i < 2; i++) {
+        await mouseOverPage.clickFirstLink()
+        await mouseOverPage.clickSecondLink()
+    }
+    await expect(mouseOverPage.firstLinkCounter, 'Counter for first link should display 2').toHaveText('2')
+    await expect(mouseOverPage.secondLinkCounter, 'Counter for second link should display 2').toHaveText('2')
 })
 
-test('Locate button with non-breaking space @regression @new', async ({ page }) => {
+test('Locate button with non-breaking space @regression', async ({ page }) => {
     const nonBreakingSpacePage = new NonBreakingSpacePage(page)
 
     await homePage.openNonBreakingSpacePage()

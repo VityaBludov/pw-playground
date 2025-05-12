@@ -16,12 +16,12 @@ export class MouseOverPage {
     }
 
     async clickFirstLink() {
-        await expect(this.firstLink).toBeVisible()
+        await expect(this.firstLink, '"Click me" link should be visible').toBeVisible()
         await this.firstLink.click()
     }
 
     async clickSecondLink() {
-        await expect(this.secondLink).toBeVisible()
+        await expect(this.secondLink, '"Link button" should be visible').toBeVisible()
         await this.secondLink.click()
     }
 }
