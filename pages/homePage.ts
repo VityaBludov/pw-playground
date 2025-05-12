@@ -16,6 +16,7 @@ export class HomePage {
     private readonly progressBarPageLink: Locator
     private readonly visibilityPageLink: Locator
     private readonly sampleAppLink: Locator
+    private readonly mouseOverLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -33,6 +34,7 @@ export class HomePage {
         this.progressBarPageLink     = this.page.getByRole('link', { name: 'Progress Bar' })
         this.visibilityPageLink      = this.page.getByRole('link', { name: 'Visibility' })
         this.sampleAppLink           = this.page.getByRole('link', { name: 'Sample App' })
+        this.mouseOverLink           = this.page.getByRole('link', { name: 'Mouse Over' })
     }
 
     async openDynamicIdPage() {
@@ -89,5 +91,9 @@ export class HomePage {
 
     async openSampleAppPage() {
         await this.sampleAppLink.click()
+    }
+
+    async openMouseOverPage() {
+        await this.mouseOverLink.click()
     }
 }

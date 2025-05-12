@@ -14,6 +14,7 @@ import { VerifyTextPage } from '../pages/verifyTextPage'
 import { ProgressBarPage } from '../pages/progressBarPage'
 import { VisibilityPage } from '../pages/visibilityPage'
 import { SampleAppPage } from '../pages/sampleAppPage'
+import { MouseOverPage } from '../pages/mouseOverPage'
 
 let homePage: HomePage
 
@@ -147,4 +148,16 @@ test('Verify login with correct credentials @regression', async ({ page }) => {
     await sampleAppPage.inputPassword('pwd')
     await sampleAppPage.submitForm()
     await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toContainText(`Welcome, ${user}!`)
+})
+
+test('verify links to be clickable after change on mouseover @regression', async ({ page }) => {
+    const mouseOverPage = new MouseOverPage(page)
+
+    await homePage.openMouseOverPage()
+    await mouseOverPage.clickFirstLink()
+    await mouseOverPage.clickFirstLink()
+    await expect(mouseOverPage.firstLinkCounter).toHaveText('2')
+    await mouseOverPage.clickSecondLink()
+    await mouseOverPage.clickSecondLink()
+    await expect(mouseOverPage.secondLinkCounter).toHaveText('2')
 })
