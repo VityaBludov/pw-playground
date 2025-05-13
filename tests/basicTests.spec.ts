@@ -16,6 +16,7 @@ import { VisibilityPage } from '../pages/visibilityPage'
 import { SampleAppPage } from '../pages/sampleAppPage'
 import { MouseOverPage } from '../pages/mouseOverPage'
 import { NonBreakingSpacePage } from '../pages/nonBreakingSpacePage'
+import { OverlappedElementPage } from '../pages/overlappedElementPage'
 
 let homePage: HomePage
 
@@ -151,7 +152,7 @@ test('Verify login with correct credentials @regression', async ({ page }) => {
     await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toHaveText(`Welcome, ${user}!`)
 })
 
-test('verify links to be clickable after change on mouseover @regression @new', async ({ page }) => {
+test('verify links to be clickable after change on mouseover @regression', async ({ page }) => {
     const mouseOverPage = new MouseOverPage(page)
 
     await homePage.openMouseOverPage()
@@ -169,4 +170,13 @@ test('Locate button with non-breaking space @regression', async ({ page }) => {
     await homePage.openNonBreakingSpacePage()
     await nonBreakingSpacePage.clickButton()
     // no click outcome, nothing to assert
+})
+
+test('Check input into overlapped element @regression', async ({ page }) => {
+    const overlappedElementPage = new OverlappedElementPage(page)
+    const name = 'fedya'
+
+    await homePage.openOverlappedElementPage()
+    await overlappedElementPage.inputName(name)
+    await expect(overlappedElementPage.nameField, 'Name field should contain filled-in string').toHaveValue(name)
 })
