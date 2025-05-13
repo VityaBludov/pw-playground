@@ -160,8 +160,8 @@ test('verify links to be clickable after change on mouseover @regression', async
         await mouseOverPage.clickFirstLink()
         await mouseOverPage.clickSecondLink()
     }
-    await expect(mouseOverPage.firstLinkCounter, 'Counter for first link should display 2').toHaveText('2')
-    await expect(mouseOverPage.secondLinkCounter, 'Counter for second link should display 2').toHaveText('2')
+    await expect(mouseOverPage.firstLinkCounter, 'Counter for "Click me" link should display 2').toHaveText('2')
+    await expect(mouseOverPage.secondLinkCounter, 'Counter for "Link button" should display 2').toHaveText('2')
 })
 
 test('Locate button with non-breaking space @regression', async ({ page }) => {
