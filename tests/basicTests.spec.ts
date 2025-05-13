@@ -180,3 +180,5 @@ test('Check input into overlapped element @regression', async ({ page }) => {
     await overlappedElementPage.inputName(name)
     await expect(overlappedElementPage.nameField, 'Name field should contain filled-in string').toHaveValue(name)
 })
+
+// shadow DOM case skipped due to bug in playground, which prevents copying into clipboard
