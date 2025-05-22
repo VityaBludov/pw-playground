@@ -19,6 +19,7 @@ export class HomePage {
     private readonly mouseOverPageLink: Locator
     private readonly nonBreakingSpacePageLink: Locator
     private readonly overlappedElementPageLink: Locator
+    private readonly alertsPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -39,6 +40,7 @@ export class HomePage {
         this.mouseOverPageLink         = this.page.getByRole('link', { name: 'Mouse Over' })
         this.nonBreakingSpacePageLink  = this.page.getByRole('link', { name: 'Non-Breaking Space' })
         this.overlappedElementPageLink = this.page.getByRole('link', { name: 'Overlapped Element' })
+        this.alertsPageLink            = this.page.getByRole('link', { name: 'Alerts' })
     }
 
     async openDynamicIdPage() {
@@ -107,5 +109,9 @@ export class HomePage {
 
     async openOverlappedElementPage() {
         await this.overlappedElementPageLink.click()
+    }
+
+    async openAlertsPage() {
+        await this.alertsPageLink.click()
     }
 }

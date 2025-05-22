@@ -17,6 +17,7 @@ import { SampleAppPage } from '../pages/sampleAppPage'
 import { MouseOverPage } from '../pages/mouseOverPage'
 import { NonBreakingSpacePage } from '../pages/nonBreakingSpacePage'
 import { OverlappedElementPage } from '../pages/overlappedElementPage'
+import { AlertsPage } from '../pages/alertsPage'
 
 let homePage: HomePage
 
@@ -182,3 +183,51 @@ test('Check input into overlapped element @regression', async ({ page }) => {
 })
 
 // shadow DOM case skipped due to bug in playground, which prevents copying into clipboard
+
+test.describe('Suite: verify interactions with dialogs @regression', () => {
+    // TODO: replace timeouts with proper delays
+
+    test('Check alert message', async ({ page }) => {
+        const alertsPage = new AlertsPage(page)
+    
+        await homePage.openAlertsPage()
+        alertsPage.handleDialog()
+        await alertsPage.clickAlertButton()
+        expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('Today is a working day.\nOr less likely a holiday.')
+    })
+
+    test('Check dialog message after confirmation', async ({ page }) => {
+        const alertsPage = new AlertsPage(page)
+
+        await homePage.openAlertsPage()
+        alertsPage.handleDialog(true)
+        await alertsPage.clickConfirmButton()
+        expect(alertsPage.dialogMessage, 'Confirm dialog should have proper message text').toEqual('Today is Friday.\nDo you agree?')
+        await page.waitForTimeout(2000)
+        expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('Yes')
+    })
+
+    test('Check dialog message after rejection', async ({ page }) => {
+        const alertsPage = new AlertsPage(page)
+
+        await homePage.openAlertsPage()
+        alertsPage.handleDialog(false)
+        await alertsPage.clickConfirmButton()
+        expect(alertsPage.dialogMessage, 'Confirm dialog should have proper message text').toEqual('Today is Friday.\nDo you agree?')
+        await page.waitForTimeout(2000)
+        expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('No')
+    })
+
+    test('Check prompt input and resulting message', async ({ page }) => {
+        const alertsPage = new AlertsPage(page)
+        const answer = 'dogs'
+
+        await homePage.openAlertsPage()
+        alertsPage.handleDialog(true, answer)
+        await page.locator('#promptButton').click()
+        expect(alertsPage.dialogMessage, 'Prompt should have proper message text').toEqual('Choose "cats" or \'dogs\'.\nEnter your value:')
+        expect(alertsPage.defaultAnswer, 'Prompt should have proper value prefilled').toEqual('cats')
+        await page.waitForTimeout(2000)
+        expect(alertsPage.dialogMessage, 'Alert should contain user answer').toEqual(`User value: ${answer}`)
+    })
+})
