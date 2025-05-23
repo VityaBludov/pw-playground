@@ -18,6 +18,8 @@ import { MouseOverPage } from '../pages/mouseOverPage'
 import { NonBreakingSpacePage } from '../pages/nonBreakingSpacePage'
 import { OverlappedElementPage } from '../pages/overlappedElementPage'
 import { AlertsPage } from '../pages/alertsPage'
+import { UploadPage } from '../pages/uploadPage'
+import path from 'node:path'
 
 let homePage: HomePage
 
@@ -230,4 +232,16 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         await page.waitForTimeout(2000)
         expect(alertsPage.dialogMessage, 'Alert should contain user answer').toEqual(`User value: ${answer}`)
     })
+})
+
+test('Check file upload with drag&drop and file system browsing @regression', async ({ page }) => {
+    const uploadPage = new UploadPage(page)
+    const browseFileName = 'lorem_ipsum.txt'
+
+    // case with drag&drop not implemented due to the fact PW cannot operate outside of browser context
+
+    await homePage.openUploadPage()
+    await uploadPage.browseFile(`./resources/data/${browseFileName}`)
+    await expect(uploadPage.fileList, 'Browsed file should be in uploaded files list').toContainText(browseFileName)
+    await expect(uploadPage.infoMessage, 'Number of uploaded files should be displayed').toHaveText('1 file(s) selected')
 })

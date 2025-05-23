@@ -20,6 +20,7 @@ export class HomePage {
     private readonly nonBreakingSpacePageLink: Locator
     private readonly overlappedElementPageLink: Locator
     private readonly alertsPageLink: Locator
+    private readonly uploadPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -41,6 +42,7 @@ export class HomePage {
         this.nonBreakingSpacePageLink  = this.page.getByRole('link', { name: 'Non-Breaking Space' })
         this.overlappedElementPageLink = this.page.getByRole('link', { name: 'Overlapped Element' })
         this.alertsPageLink            = this.page.getByRole('link', { name: 'Alerts' })
+        this.uploadPageLink            = this.page.getByRole('link', { name: 'File Upload' })
     }
 
     async openDynamicIdPage() {
@@ -113,5 +115,9 @@ export class HomePage {
 
     async openAlertsPage() {
         await this.alertsPageLink.click()
+    }
+
+    async openUploadPage() {
+        await this.uploadPageLink.click()
     }
 }
