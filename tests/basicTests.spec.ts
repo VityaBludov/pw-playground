@@ -36,12 +36,13 @@ test('identify button with dynamic ID @regression', async ({ page }) => {
     // no click outcome, nothing to assert
 })
 
-test('identify button by class attribute @regression', async ({ page }) => {
+test('identify button by class attribute @regression @new', async ({ page }) => {
     const classAttributePage = new ClassAttributePage(page)
 
     await homePage.openClassAttributePage()
+    await classAttributePage.handleAlert()
     await classAttributePage.clickPrimaryButton()
-    await classAttributePage.clickPopupButton()
+    expect(classAttributePage.alertMessage, 'Alert should have proper message text').toEqual('Primary button pressed')
 })
 
 test('check that after click second button appears and hides first one @regression', async ({ page }) => {
