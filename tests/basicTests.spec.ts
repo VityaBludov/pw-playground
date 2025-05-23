@@ -20,6 +20,7 @@ import { OverlappedElementPage } from '../pages/overlappedElementPage'
 import { AlertsPage } from '../pages/alertsPage'
 import { UploadPage } from '../pages/uploadPage'
 import path from 'node:path'
+import { AnimationPage } from '../pages/animationPage'
 
 let homePage: HomePage
 
@@ -36,7 +37,7 @@ test('identify button with dynamic ID @regression', async ({ page }) => {
     // no click outcome, nothing to assert
 })
 
-test('identify button by class attribute @regression @new', async ({ page }) => {
+test('identify button by class attribute @regression', async ({ page }) => {
     const classAttributePage = new ClassAttributePage(page)
 
     await homePage.openClassAttributePage()
@@ -245,4 +246,14 @@ test('Check file upload with drag&drop and file system browsing @regression', as
     await uploadPage.browseFile(`./resources/data/${browseFileName}`)
     await expect(uploadPage.fileList, 'Browsed file should be in uploaded files list').toContainText(browseFileName)
     await expect(uploadPage.infoMessage, 'Number of uploaded files should be displayed').toHaveText('1 file(s) selected')
+})
+
+test('Check button after animation @regression @new', async ({ page }) => {
+    const animationPage = new AnimationPage(page)
+
+    await homePage.openAnimationPage()
+    await animationPage.clickStartAnimationButton()
+    await animationPage.waitForAnimationToFinish(10 * 1000)
+    await animationPage.clickMovingTargetButton()
+    await expect(animationPage.finalMessage, 'Final status message should contain proper value').toContainText('btn btn-primary')
 })

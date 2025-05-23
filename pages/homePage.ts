@@ -21,6 +21,7 @@ export class HomePage {
     private readonly overlappedElementPageLink: Locator
     private readonly alertsPageLink: Locator
     private readonly uploadPageLink: Locator
+    private readonly animationPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -43,6 +44,7 @@ export class HomePage {
         this.overlappedElementPageLink = this.page.getByRole('link', { name: 'Overlapped Element' })
         this.alertsPageLink            = this.page.getByRole('link', { name: 'Alerts' })
         this.uploadPageLink            = this.page.getByRole('link', { name: 'File Upload' })
+        this.animationPageLink         = this.page.getByRole('link', { name: 'Animated Button' })
     }
 
     async openDynamicIdPage() {
@@ -119,5 +121,9 @@ export class HomePage {
 
     async openUploadPage() {
         await this.uploadPageLink.click()
+    }
+
+    async openAnimationPage() {
+        await this.animationPageLink.click()
     }
 }
