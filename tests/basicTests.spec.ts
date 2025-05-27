@@ -21,6 +21,7 @@ import { AlertsPage } from '../pages/alertsPage'
 import { UploadPage } from '../pages/uploadPage'
 import path from 'node:path'
 import { AnimationPage } from '../pages/animationPage'
+import { DisabledInputPage } from '../pages/disabledInputPage'
 
 let homePage: HomePage
 
@@ -248,7 +249,7 @@ test('Check file upload with drag&drop and file system browsing @regression', as
     await expect(uploadPage.infoMessage, 'Number of uploaded files should be displayed').toHaveText('1 file(s) selected')
 })
 
-test('Check button after animation @regression @new', async ({ page }) => {
+test('Check button after animation @regression', async ({ page }) => {
     const animationPage = new AnimationPage(page)
 
     await homePage.openAnimationPage()
@@ -256,4 +257,14 @@ test('Check button after animation @regression @new', async ({ page }) => {
     await animationPage.waitForAnimationToFinish(10 * 1000)
     await animationPage.clickMovingTargetButton()
     await expect(animationPage.finalMessage, 'Final status message should contain proper value').toContainText('btn btn-primary')
+})
+
+test('Check input into disabled text field after delay @regression', async ({ page }) => {
+    const disabledInputPage = new DisabledInputPage(page)
+    const inputValue = 'BILLIONS AND BILLIONS!!!11'
+
+    await homePage.openDisabledInputPage()
+    await disabledInputPage.clickEnableButton()
+    await disabledInputPage.inputText(inputValue, 10 * 1000)
+    await expect(disabledInputPage.inforMessage, 'Info message should contain user input').toHaveText(`Value changed to: ${inputValue}`)
 })

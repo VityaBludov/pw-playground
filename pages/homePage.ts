@@ -22,6 +22,7 @@ export class HomePage {
     private readonly alertsPageLink: Locator
     private readonly uploadPageLink: Locator
     private readonly animationPageLink: Locator
+    private readonly disabledInputPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -45,6 +46,7 @@ export class HomePage {
         this.alertsPageLink            = this.page.getByRole('link', { name: 'Alerts' })
         this.uploadPageLink            = this.page.getByRole('link', { name: 'File Upload' })
         this.animationPageLink         = this.page.getByRole('link', { name: 'Animated Button' })
+        this.disabledInputPageLink     = this.page.getByRole('link', { name: 'Disabled Input' })
     }
 
     async openDynamicIdPage() {
@@ -125,5 +127,9 @@ export class HomePage {
 
     async openAnimationPage() {
         await this.animationPageLink.click()
+    }
+
+    async openDisabledInputPage() {
+        this.disabledInputPageLink.click()
     }
 }
