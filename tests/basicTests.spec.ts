@@ -19,9 +19,10 @@ import { NonBreakingSpacePage } from '../pages/nonBreakingSpacePage'
 import { OverlappedElementPage } from '../pages/overlappedElementPage'
 import { AlertsPage } from '../pages/alertsPage'
 import { UploadPage } from '../pages/uploadPage'
-import path from 'node:path'
 import { AnimationPage } from '../pages/animationPage'
 import { DisabledInputPage } from '../pages/disabledInputPage'
+import { AutoWaitPage } from '../pages/autoWaitPage'
+import { randomElement } from '../resources/helpers'
 
 let homePage: HomePage
 
@@ -267,4 +268,68 @@ test('Check input into disabled text field after delay @regression', async ({ pa
     await disabledInputPage.clickEnableButton()
     await disabledInputPage.inputText(inputValue, 10 * 1000)
     await expect(disabledInputPage.inforMessage, 'Info message should contain user input').toHaveText(`Value changed to: ${inputValue}`)
+})
+
+test.describe('Suite: Verify accessibility of different elements after delay @regression @new', async () => {
+    const visible     = 'Visible'
+    const enabled     = 'Enable'
+    const editable    = 'Editable'
+    const onTop       = 'On Top'
+    const nonZeroSize = 'Non Zero Size'
+    
+    test('Check button invisibility and click after delay', async ({ page }) => {
+        const autoWaitPage = new AutoWaitPage(page)
+
+        await homePage.openAutoWaitPage()
+        await autoWaitPage.chooseElement('button')
+        await autoWaitPage.setState(visible, false)
+        await autoWaitPage.setShortDelay()
+        await expect(autoWaitPage.targetButton, 'Target button should become invisible').not.toBeVisible()
+        await autoWaitPage.waitForDelay()
+        await autoWaitPage.clickTargetButton()
+        await expect(autoWaitPage.statusMessage, 'Status message should indicate button click').toHaveText('Target clicked.')
+    })
+
+    test('Check disabling input and fill-in after delay', async ({ page }) => {
+        const autoWaitPage = new AutoWaitPage(page)
+        const userInput = 'arcane rain fell'
+
+        await homePage.openAutoWaitPage()
+        await autoWaitPage.chooseElement('input')
+        await autoWaitPage.setState(enabled, false)
+        await autoWaitPage.setMediumDelay()
+        await expect(autoWaitPage.targetInput, 'Target input should become disabled').not.toBeEnabled()
+        await autoWaitPage.waitForDelay()
+        await autoWaitPage.fillTargetInput(userInput)
+        await expect(autoWaitPage.statusMessage, 'Status message should contain user input').toHaveText(`Text: ${userInput}`)
+    })
+
+    // skipped non-editable textbox case since it is similar to disabled input case
+
+    test('Check selection dropdown after being covered by another element', async ({ page }) => {
+        const autoWaitPage = new AutoWaitPage(page)
+        const options = ['Item 1', 'Item 2', 'Item 3']
+        const chosenOption = randomElement(options)
+
+        await homePage.openAutoWaitPage()
+        await autoWaitPage.chooseElement('select')
+        await autoWaitPage.setState(onTop, false)
+        await autoWaitPage.setMediumDelay()
+        // TODO: add assertion for element getting covered by another element
+        await autoWaitPage.waitForDelay()
+        await autoWaitPage.pickFromTargetSelect(chosenOption)
+        await expect(autoWaitPage.statusMessage, 'Status message should contain selected option').toHaveText(`Selected: ${chosenOption}`)
+    })
+
+    test('Check label visibility change by setting size after delay', async ({ page }) => {
+        const autoWaitPage = new AutoWaitPage(page)
+
+        await homePage.openAutoWaitPage()
+        await autoWaitPage.chooseElement('label')
+        await autoWaitPage.setState(nonZeroSize, false)
+        await autoWaitPage.setLongDelay()
+        await expect(autoWaitPage.targetLabel, 'Label should become invisible').not.toBeVisible()
+        await autoWaitPage.waitForDelay()
+        await expect(autoWaitPage.targetLabel, 'Label should become visible again').toBeVisible()
+    })
 })

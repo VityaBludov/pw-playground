@@ -23,6 +23,7 @@ export class HomePage {
     private readonly uploadPageLink: Locator
     private readonly animationPageLink: Locator
     private readonly disabledInputPageLink: Locator
+    private readonly autoWaitPageLink: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -47,6 +48,7 @@ export class HomePage {
         this.uploadPageLink            = this.page.getByRole('link', { name: 'File Upload' })
         this.animationPageLink         = this.page.getByRole('link', { name: 'Animated Button' })
         this.disabledInputPageLink     = this.page.getByRole('link', { name: 'Disabled Input' })
+        this.autoWaitPageLink          = this.page.getByRole('link', { name: 'Auto Wait' })
     }
 
     async openDynamicIdPage() {
@@ -130,6 +132,10 @@ export class HomePage {
     }
 
     async openDisabledInputPage() {
-        this.disabledInputPageLink.click()
+        await this.disabledInputPageLink.click()
+    }
+
+    async openAutoWaitPage() {
+        await this.autoWaitPageLink.click()
     }
 }
