@@ -1,28 +1,32 @@
 import { expect, test } from '@playwright/test'
-import { DynamicIdPage } from '../pages/dynamicIdPage'
-import { HomePage } from '../pages/homePage'
-import { ClassAttributePage } from '../pages/classAttributePage'
-import { HiddenLayersPage } from '../pages/hiddenLayersPage'
-import { LoadDelayPage } from '../pages/loadDelayPage'
+
 import { AjaxDataPage } from '../pages/ajaxDataPage'
-import { ClientSideDelayPage } from '../pages/clientSideDelayPage'
+import { AlertsPage } from '../pages/alertsPage'
+import { AnimationPage } from '../pages/animationPage'
+import { AutoWaitPage } from '../pages/autoWaitPage'
+import { ClassAttributePage } from '../pages/classAttributePage'
 import { ClickPage } from '../pages/clickPage'
-import { TextInputPage } from '../pages/textInputPage'
-import { ScrollbarsPage } from '../pages/scrollbarsPage'
+import { ClientSideDelayPage } from '../pages/clientSideDelayPage'
+import { DisabledInputPage } from '../pages/disabledInputPage'
+import { DynamicIdPage } from '../pages/dynamicIdPage'
 import { DynamicTablePage } from '../pages/dynamicTablePage'
-import { VerifyTextPage } from '../pages/verifyTextPage'
-import { ProgressBarPage } from '../pages/progressBarPage'
-import { VisibilityPage } from '../pages/visibilityPage'
-import { SampleAppPage } from '../pages/sampleAppPage'
+import { HiddenLayersPage } from '../pages/hiddenLayersPage'
+import { HomePage } from '../pages/homePage'
+import { LoadDelayPage } from '../pages/loadDelayPage'
 import { MouseOverPage } from '../pages/mouseOverPage'
 import { NonBreakingSpacePage } from '../pages/nonBreakingSpacePage'
 import { OverlappedElementPage } from '../pages/overlappedElementPage'
-import { AlertsPage } from '../pages/alertsPage'
+import { ProgressBarPage } from '../pages/progressBarPage'
+import { SampleAppPage } from '../pages/sampleAppPage'
+import { ScrollbarsPage } from '../pages/scrollbarsPage'
+import { TextInputPage } from '../pages/textInputPage'
 import { UploadPage } from '../pages/uploadPage'
-import { AnimationPage } from '../pages/animationPage'
-import { DisabledInputPage } from '../pages/disabledInputPage'
-import { AutoWaitPage } from '../pages/autoWaitPage'
+import { VerifyTextPage } from '../pages/verifyTextPage'
+import { VisibilityPage } from '../pages/visibilityPage'
+
 import { randomElement } from '../resources/helpers'
+import { timeouts, users } from '../resources/testData'
+
 
 let homePage: HomePage
 
@@ -62,7 +66,7 @@ test('check that after click second button appears and hides first one @regressi
 test('wait delayed page load @regression', async ({ page }) => {
     const loadDelayPage = new LoadDelayPage(page)
 
-    await homePage.openLoadDelayPage(10000)
+    await homePage.openLoadDelayPage(timeouts.medium)
     await expect(loadDelayPage.delayedButton, 'Delayed page with button should be visible').toBeVisible()
 })
 
@@ -71,14 +75,14 @@ test('wait for slow AJAX response @regression', async ({ page }) => {
 
     await homePage.openAjaxDataPage()
     await ajaxDataPage.clickAjaxButton()
-    await expect(ajaxDataPage.successMessage, 'Green success message should appear within < 20s').toBeVisible({ timeout: 20000 })
+    await expect(ajaxDataPage.successMessage, 'Green success message should appear within < 20s').toBeVisible({ timeout: timeouts.long })
 })
 
 test('wait for slow client side logic @regression', async ({ page }) => {
     const clientSideDelayPage = new ClientSideDelayPage(page)
 
     await homePage.openClientSideDelayPage()
-    await clientSideDelayPage.clickTriggerButton(20000)
+    await clientSideDelayPage.clickTriggerButton(timeouts.long)
     await expect(clientSideDelayPage.successMessage, 'Green success message should appear within < 20s').toBeVisible()
 })
 
@@ -92,7 +96,7 @@ test('verify that emulating physical mouse click works @regression', async ({ pa
 
 test('verify that emulating physical keyboard input works @regression', async ({ page }) => {
     const textInputPage = new TextInputPage(page)
-    const name = 'new name'
+    const name = 'button new name'
 
     await homePage.openTextInputPage()
     await textInputPage.inputButtonName(name)
@@ -150,25 +154,25 @@ test('Verify different types of element invisibility @regression', async ({ page
 
 test('Verify login with correct credentials @regression', async ({ page }) => {
     const sampleAppPage = new SampleAppPage(page)
-    const user = 'vasya'
 
     await homePage.openSampleAppPage()
-    await sampleAppPage.inputUsername(user)
-    await sampleAppPage.inputPassword('pwd')
+    await sampleAppPage.inputUsername(users.defaultUser.name)
+    await sampleAppPage.inputPassword(users.defaultUser.password)
     await sampleAppPage.submitForm()
-    await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toHaveText(`Welcome, ${user}!`)
+    await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toHaveText(`Welcome, ${users.defaultUser.name}!`)
 })
 
 test('verify links to be clickable after change on mouseover @regression', async ({ page }) => {
     const mouseOverPage = new MouseOverPage(page)
+    const count = 2
 
     await homePage.openMouseOverPage()
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < count; i++) {
         await mouseOverPage.clickFirstLink()
         await mouseOverPage.clickSecondLink()
     }
-    await expect(mouseOverPage.firstLinkCounter, 'Counter for "Click me" link should display 2').toHaveText('2')
-    await expect(mouseOverPage.secondLinkCounter, 'Counter for "Link button" should display 2').toHaveText('2')
+    await expect(mouseOverPage.firstLinkCounter, `Counter for "Click me" link should display ${count}`).toHaveText(`${count}`)
+    await expect(mouseOverPage.secondLinkCounter, `Counter for "Link button" should display 2 ${count}`).toHaveText(`${count}`)
 })
 
 test('Locate button with non-breaking space @regression', async ({ page }) => {
@@ -181,11 +185,10 @@ test('Locate button with non-breaking space @regression', async ({ page }) => {
 
 test('Check input into overlapped element @regression', async ({ page }) => {
     const overlappedElementPage = new OverlappedElementPage(page)
-    const name = 'fedya'
 
     await homePage.openOverlappedElementPage()
-    await overlappedElementPage.inputName(name)
-    await expect(overlappedElementPage.nameField, 'Name field should contain filled-in string').toHaveValue(name)
+    await overlappedElementPage.inputName(users.defaultUser.name)
+    await expect(overlappedElementPage.nameField, 'Name field should contain filled-in string').toHaveValue(users.defaultUser.name)
 })
 
 // shadow DOM case skipped due to bug in playground, which prevents copying into clipboard
@@ -209,7 +212,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         alertsPage.handleDialog(true)
         await alertsPage.clickConfirmButton()
         expect(alertsPage.dialogMessage, 'Confirm dialog should have proper message text').toEqual('Today is Friday.\nDo you agree?')
-        await page.waitForTimeout(2000)
+        await page.waitForTimeout(timeouts.long)
         expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('Yes')
     })
 
@@ -220,7 +223,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         alertsPage.handleDialog(false)
         await alertsPage.clickConfirmButton()
         expect(alertsPage.dialogMessage, 'Confirm dialog should have proper message text').toEqual('Today is Friday.\nDo you agree?')
-        await page.waitForTimeout(2000)
+        await page.waitForTimeout(timeouts.long)
         expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('No')
     })
 
@@ -233,7 +236,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         await page.locator('#promptButton').click()
         expect(alertsPage.dialogMessage, 'Prompt should have proper message text').toEqual('Choose "cats" or \'dogs\'.\nEnter your value:')
         expect(alertsPage.defaultAnswer, 'Prompt should have proper value prefilled').toEqual('cats')
-        await page.waitForTimeout(2000)
+        await page.waitForTimeout(timeouts.long)
         expect(alertsPage.dialogMessage, 'Alert should contain user answer').toEqual(`User value: ${answer}`)
     })
 })
@@ -242,7 +245,7 @@ test('Check file upload with drag&drop and file system browsing @regression', as
     const uploadPage = new UploadPage(page)
     const browseFileName = 'lorem_ipsum.txt'
 
-    // case with drag&drop not implemented due to the fact PW cannot operate outside of browser context
+    // drag&drop from OS filesystem case not implemented due to the fact PW cannot operate outside of browser context
 
     await homePage.openUploadPage()
     await uploadPage.browseFile(`./resources/data/${browseFileName}`)
@@ -255,7 +258,7 @@ test('Check button after animation @regression', async ({ page }) => {
 
     await homePage.openAnimationPage()
     await animationPage.clickStartAnimationButton()
-    await animationPage.waitForAnimationToFinish(10 * 1000)
+    await animationPage.waitForAnimationToFinish(timeouts.medium)
     await animationPage.clickMovingTargetButton()
     await expect(animationPage.finalMessage, 'Final status message should contain proper value').toContainText('btn btn-primary')
 })
@@ -266,11 +269,11 @@ test('Check input into disabled text field after delay @regression', async ({ pa
 
     await homePage.openDisabledInputPage()
     await disabledInputPage.clickEnableButton()
-    await disabledInputPage.inputText(inputValue, 10 * 1000)
+    await disabledInputPage.inputText(inputValue, timeouts.medium)
     await expect(disabledInputPage.inforMessage, 'Info message should contain user input').toHaveText(`Value changed to: ${inputValue}`)
 })
 
-test.describe('Suite: Verify accessibility of different elements after delay @regression @new', async () => {
+test.describe('Suite: Verify accessibility of different elements after delay @regression', async () => {
     const visible     = 'Visible'
     const enabled     = 'Enable'
     const editable    = 'Editable'
