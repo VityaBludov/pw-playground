@@ -1,0 +1,11 @@
+version: '3.38'
+services:
+  pw-playground-tests:
+    image: pw-playground-tests
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run test-prod
+    volumes:
+      - ./playwright-report/:/app/playwright-report
+      - ./test-results/:/app/test-results
