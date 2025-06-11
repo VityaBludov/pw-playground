@@ -39,7 +39,6 @@ export class DynamicTablePage {
 
         await expect(valueCell, 'Table cell should be visible').toBeVisible()
 
-        console.log(`inner text: ${await valueCell.innerText()}`)
         return await valueCell.innerText()
     }
 
