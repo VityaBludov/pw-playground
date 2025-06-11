@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../fixtures/main'
 
 import { AjaxDataPage } from '../pages/ajaxDataPage'
 import { AlertsPage } from '../pages/alertsPage'
@@ -28,14 +28,7 @@ import { randomElement } from '../resources/helpers'
 import { timeouts, users } from '../resources/testData'
 
 
-let homePage: HomePage
-
-test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page)
-    await page.goto('/')
-})
-
-test('identify button with dynamic ID @regression', async ({ page }) => {
+test('identify button with dynamic ID @regression', async ({ page, homePage }) => {
     const dynamicIdPage: DynamicIdPage = new DynamicIdPage(page)
 
     await homePage.openDynamicIdPage()
@@ -43,7 +36,7 @@ test('identify button with dynamic ID @regression', async ({ page }) => {
     // no click outcome, nothing to assert
 })
 
-test('identify button by class attribute @regression', async ({ page }) => {
+test('identify button by class attribute @regression', async ({ page, homePage }) => {
     const classAttributePage = new ClassAttributePage(page)
 
     await homePage.openClassAttributePage()
@@ -52,7 +45,7 @@ test('identify button by class attribute @regression', async ({ page }) => {
     expect(classAttributePage.alertMessage, 'Alert should have proper message text').toEqual('Primary button pressed')
 })
 
-test('check that after click second button appears and hides first one @regression', async ({ page }) => {
+test('check that after click second button appears and hides first one @regression', async ({ page, homePage }) => {
     const hiddenLayersPage = new HiddenLayersPage(page)
 
     // reworked: verify by blue button existence, z-indexes comparison and respective bound boxes position and size
@@ -63,14 +56,14 @@ test('check that after click second button appears and hides first one @regressi
     expect(await hiddenLayersPage.isGreenButtonCovered(), 'Blue button should fully cover green button').toBeTruthy()
 })
 
-test('wait delayed page load @regression', async ({ page }) => {
+test('wait delayed page load @regression', async ({ page, homePage }) => {
     const loadDelayPage = new LoadDelayPage(page)
 
     await homePage.openLoadDelayPage(timeouts.medium)
     await expect(loadDelayPage.delayedButton, 'Delayed page with button should be visible').toBeVisible()
 })
 
-test('wait for slow AJAX response @regression', async ({ page }) => {
+test('wait for slow AJAX response @regression', async ({ page, homePage }) => {
     const ajaxDataPage = new AjaxDataPage(page)
 
     await homePage.openAjaxDataPage()
@@ -78,7 +71,7 @@ test('wait for slow AJAX response @regression', async ({ page }) => {
     await expect(ajaxDataPage.successMessage, 'Green success message should appear within < 20s').toBeVisible({ timeout: timeouts.long })
 })
 
-test('wait for slow client side logic @regression', async ({ page }) => {
+test('wait for slow client side logic @regression', async ({ page, homePage }) => {
     const clientSideDelayPage = new ClientSideDelayPage(page)
 
     await homePage.openClientSideDelayPage()
@@ -86,7 +79,7 @@ test('wait for slow client side logic @regression', async ({ page }) => {
     await expect(clientSideDelayPage.successMessage, 'Green success message should appear within < 20s').toBeVisible()
 })
 
-test('verify that emulating physical mouse click works @regression', async ({ page }) => {
+test('verify that emulating physical mouse click works @regression', async ({ page, homePage }) => {
     const clickPage = new ClickPage(page)
 
     await homePage.openClickPage()
@@ -94,7 +87,7 @@ test('verify that emulating physical mouse click works @regression', async ({ pa
     await expect(clickPage.greenButton, 'Green button should appear instead of blue one').toBeVisible()
 })
 
-test('verify that emulating physical keyboard input works @regression', async ({ page }) => {
+test('verify that emulating physical keyboard input works @regression', async ({ page, homePage }) => {
     const textInputPage = new TextInputPage(page)
     const name = 'button new name'
 
@@ -103,7 +96,7 @@ test('verify that emulating physical keyboard input works @regression', async ({
     await expect(textInputPage.renameableButton, 'Button should have new name').toHaveText(name)
 })
 
-test('check that button can be scrolled into viewport and clicked @regression', async ({ page }) => {
+test('check that button can be scrolled into viewport and clicked @regression', async ({ page, homePage }) => {
     const scrollbarsPage = new ScrollbarsPage(page)
 
     await homePage.openScrollbarsPage()
@@ -111,14 +104,14 @@ test('check that button can be scrolled into viewport and clicked @regression', 
     // no click outcome, nothing to assert
 })
 
-test('compare specific value from dynamic table with control value @regression', async ({ page }) => {
+test('compare specific value from dynamic table with control value @regression', async ({ page, homePage }) => {
     const dynamicTablePage = new DynamicTablePage(page)
 
     await homePage.openDynamicTablePage()
     expect(await dynamicTablePage.getCellValue()).toEqual(await dynamicTablePage.getWarningMessageValue())
 })
 
-test('verify that text, consisting of different parts, is displayed properly @regression', async ({ page }) => {
+test('verify that text, consisting of different parts, is displayed properly @regression', async ({ page, homePage }) => {
     const text = 'Welcome UserName!'
     const verifyTextPage = new VerifyTextPage(page)
 
@@ -126,7 +119,7 @@ test('verify that text, consisting of different parts, is displayed properly @re
     await expect((await verifyTextPage.getElementByText(text)).last(), 'Element with proper text should be displayed').toBeVisible()
 })
 
-test('verify that progress bar reaches target @regression', async ({ page }) => {
+test('verify that progress bar reaches target @regression', async ({ page, homePage }) => {
     const target = 75
     const progressBarPage = new ProgressBarPage(page)
 
@@ -137,7 +130,7 @@ test('verify that progress bar reaches target @regression', async ({ page }) => 
     expect(await progressBarPage.getTimeDiff()).toBeLessThan(3)
 })
 
-test('Verify different types of element invisibility @regression', async ({ page }) => {
+test('Verify different types of element invisibility @regression', async ({ page, homePage }) => {
     const visibilityPage = new VisibilityPage(page)
 
     await homePage.openVisibilityPage()
@@ -152,7 +145,7 @@ test('Verify different types of element invisibility @regression', async ({ page
     await expect(visibilityPage.offscreenButton, '"Offscreen" button should not be visible').not.toBeInViewport()
 })
 
-test('Verify login with correct credentials @regression', async ({ page }) => {
+test('Verify login with correct credentials @regression', async ({ page, homePage }) => {
     const sampleAppPage = new SampleAppPage(page)
 
     await homePage.openSampleAppPage()
@@ -162,7 +155,7 @@ test('Verify login with correct credentials @regression', async ({ page }) => {
     await expect(sampleAppPage.successMessage, 'Login success message should be displayed').toHaveText(`Welcome, ${users.defaultUser.name}!`)
 })
 
-test('verify links to be clickable after change on mouseover @regression', async ({ page }) => {
+test('verify links to be clickable after change on mouseover @regression', async ({ page, homePage }) => {
     const mouseOverPage = new MouseOverPage(page)
     const count = 2
 
@@ -175,7 +168,7 @@ test('verify links to be clickable after change on mouseover @regression', async
     await expect(mouseOverPage.secondLinkCounter, `Counter for "Link button" should display 2 ${count}`).toHaveText(`${count}`)
 })
 
-test('Locate button with non-breaking space @regression', async ({ page }) => {
+test('Locate button with non-breaking space @regression', async ({ page, homePage }) => {
     const nonBreakingSpacePage = new NonBreakingSpacePage(page)
 
     await homePage.openNonBreakingSpacePage()
@@ -183,7 +176,7 @@ test('Locate button with non-breaking space @regression', async ({ page }) => {
     // no click outcome, nothing to assert
 })
 
-test('Check input into overlapped element @regression', async ({ page }) => {
+test('Check input into overlapped element @regression', async ({ page, homePage }) => {
     const overlappedElementPage = new OverlappedElementPage(page)
 
     await homePage.openOverlappedElementPage()
@@ -196,7 +189,7 @@ test('Check input into overlapped element @regression', async ({ page }) => {
 test.describe('Suite: verify interactions with dialogs @regression', () => {
     // TODO: replace timeouts with proper delays
 
-    test('Check alert message', async ({ page }) => {
+    test('Check alert message', async ({ page, homePage }) => {
         const alertsPage = new AlertsPage(page)
     
         await homePage.openAlertsPage()
@@ -205,7 +198,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('Today is a working day.\nOr less likely a holiday.')
     })
 
-    test('Check dialog message after confirmation', async ({ page }) => {
+    test('Check dialog message after confirmation', async ({ page, homePage }) => {
         const alertsPage = new AlertsPage(page)
 
         await homePage.openAlertsPage()
@@ -216,7 +209,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('Yes')
     })
 
-    test('Check dialog message after rejection', async ({ page }) => {
+    test('Check dialog message after rejection', async ({ page, homePage }) => {
         const alertsPage = new AlertsPage(page)
 
         await homePage.openAlertsPage()
@@ -227,7 +220,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
         expect(alertsPage.dialogMessage, 'Alert should have proper message text').toEqual('No')
     })
 
-    test('Check prompt input and resulting message', async ({ page }) => {
+    test('Check prompt input and resulting message', async ({ page, homePage }) => {
         const alertsPage = new AlertsPage(page)
         const answer = 'dogs'
 
@@ -241,7 +234,7 @@ test.describe('Suite: verify interactions with dialogs @regression', () => {
     })
 })
 
-test('Check file upload with drag&drop and file system browsing @regression', async ({ page }) => {
+test('Check file upload with drag&drop and file system browsing @regression', async ({ page, homePage }) => {
     const uploadPage = new UploadPage(page)
     const browseFileName = 'lorem_ipsum.txt'
 
@@ -253,7 +246,7 @@ test('Check file upload with drag&drop and file system browsing @regression', as
     await expect(uploadPage.infoMessage, 'Number of uploaded files should be displayed').toHaveText('1 file(s) selected')
 })
 
-test('Check button after animation @regression', async ({ page }) => {
+test('Check button after animation @regression', async ({ page, homePage }) => {
     const animationPage = new AnimationPage(page)
 
     await homePage.openAnimationPage()
@@ -263,7 +256,7 @@ test('Check button after animation @regression', async ({ page }) => {
     await expect(animationPage.finalMessage, 'Final status message should contain proper value').toContainText('btn btn-primary')
 })
 
-test('Check input into disabled text field after delay @regression', async ({ page }) => {
+test('Check input into disabled text field after delay @regression', async ({ page, homePage }) => {
     const disabledInputPage = new DisabledInputPage(page)
     const inputValue = 'BILLIONS AND BILLIONS!!!11'
 
@@ -280,7 +273,7 @@ test.describe('Suite: Verify accessibility of different elements after delay @re
     const onTop       = 'On Top'
     const nonZeroSize = 'Non Zero Size'
     
-    test('Check button invisibility and click after delay', async ({ page }) => {
+    test('Check button invisibility and click after delay', async ({ page, homePage }) => {
         const autoWaitPage = new AutoWaitPage(page)
 
         await homePage.openAutoWaitPage()
@@ -293,7 +286,7 @@ test.describe('Suite: Verify accessibility of different elements after delay @re
         await expect(autoWaitPage.statusMessage, 'Status message should indicate button click').toHaveText('Target clicked.')
     })
 
-    test('Check disabling input and fill-in after delay', async ({ page }) => {
+    test('Check disabling input and fill-in after delay', async ({ page, homePage }) => {
         const autoWaitPage = new AutoWaitPage(page)
         const userInput = 'arcane rain fell'
 
@@ -309,7 +302,7 @@ test.describe('Suite: Verify accessibility of different elements after delay @re
 
     // skipped non-editable textbox case since it is similar to disabled input case
 
-    test('Check selection dropdown after being covered by another element', async ({ page }) => {
+    test('Check selection dropdown after being covered by another element', async ({ page, homePage }) => {
         const autoWaitPage = new AutoWaitPage(page)
         const options = ['Item 1', 'Item 2', 'Item 3']
         const chosenOption = randomElement(options)
@@ -324,7 +317,7 @@ test.describe('Suite: Verify accessibility of different elements after delay @re
         await expect(autoWaitPage.statusMessage, 'Status message should contain selected option').toHaveText(`Selected: ${chosenOption}`)
     })
 
-    test('Check label visibility change by setting size after delay', async ({ page }) => {
+    test('Check label visibility change by setting size after delay', async ({ page, homePage }) => {
         const autoWaitPage = new AutoWaitPage(page)
 
         await homePage.openAutoWaitPage()
