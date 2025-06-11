@@ -1,6 +1,5 @@
 import { expect, test } from '../fixtures/main'
 
-import { AjaxDataPage } from '../pages/ajaxDataPage'
 import { AlertsPage } from '../pages/alertsPage'
 import { AnimationPage } from '../pages/animationPage'
 import { AutoWaitPage } from '../pages/autoWaitPage'
@@ -62,8 +61,7 @@ test('wait delayed page load @regression', async ({ page, homePage }) => {
     await expect(loadDelayPage.delayedButton, 'Delayed page with button should be visible').toBeVisible()
 })
 
-test('wait for slow AJAX response @regression', async ({ page, homePage }) => {
-    const ajaxDataPage = new AjaxDataPage(page)
+test('wait for slow AJAX response @regression @sraka', async ({ homePage, ajaxDataPage }) => {
 
     await homePage.openAjaxDataPage()
     await ajaxDataPage.clickAjaxButton()
