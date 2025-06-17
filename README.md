@@ -1,3 +1,3 @@
 # pw-playground
 
-The purpose of the repository is practicing in Playwright automation testing.
+The purpose of the repository is to practice in Playwright automation testing using playground http://uitestingplayground.com/.
